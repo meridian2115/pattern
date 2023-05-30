@@ -1,5 +1,6 @@
 package com.service.car.controller;
 
+import io.micrometer.core.annotation.Counted;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +14,7 @@ import java.util.List;
 @RequestMapping(value = "/api/v1")
 public class TestRestController {
 
+    @Counted
     @GetMapping
     public ResponseEntity<List<String>> get() {
         List<String> list = new ArrayList<>();
@@ -20,5 +22,4 @@ public class TestRestController {
         list.add("value 2");
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
-
 }
