@@ -1,0 +1,30 @@
+version: '3.8'
+services:
+  client-backend:
+    image: app/car
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - service-db
+    ports:
+      - "8080:8080"
+    environment:
+      - SERVER_PORT= 8080
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://service-db/car
+
+  service-db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "15432:5432"
+    volumes:
+      - ./infrastructure/db/create_db.sql:/docker-entrypoint-initdb.d/create_db.sql
+      - db-data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  db-data:
+  pgadmin-data:
